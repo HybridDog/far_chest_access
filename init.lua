@@ -106,7 +106,8 @@ minetest.register_node("far_chest_accessor:fca", {
 		local pname = player:get_player_name()
 		local p = get_chest_goal(pos)
 		local formname,spec
-		if not p then
+		if not p
+		or player:get_player_control().aux1 then
 			-- show the chest selection formspec
 			formname = "far_chest_accessor:sel_form"
 			spec = get_select_formspec(pos)
