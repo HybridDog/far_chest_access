@@ -55,14 +55,15 @@ local function get_select_formspec(pos)
 	num = num-1
 	table.sort(ps, vecsort)
 	local spec = "size[3,1]"..
-		"dropdown[0,0;3,1;"..pos.z .." "..pos.y .." "..pos.x ..";"
+		"dropdown[0,0;3,1;"..pos.z .." "..pos.y .." "..pos.x ..";" -- field is pos of fca
 	for i = 1,num do
 		local pos = ps[i]
-		spec = spec..pos.x .." "..pos.y .." "..pos.z
+		spec = spec..pos.x .." "..pos.y .." "..pos.z -- add relative positions to list
 		if i ~= num then
 			spec = spec..","
 		end
 	end
+	-- nth selected by default
 	spec = spec..";]"
 	return spec
 end
@@ -131,12 +132,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		minetest.log("error", "[far_chest_accessor] error with field index "..dump(fields))
 		return
 	end
-	local relp = fields[pos]
 	local z,y,x = unpack(string.split(pos, " "))
 	if not x then
 		minetest.log("error", "[far_chest_accessor] error with field index converting "..dump(fields))
 		return
 	end
+	local relp = fields[pos]
 	local rx,ry,rz = unpack(string.split(relp, " "))
 	if not rz then
 		minetest.log("error", "[far_chest_accessor] error with field value converting "..dump(fields))
