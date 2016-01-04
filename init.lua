@@ -22,15 +22,15 @@ minetest.register_abm({
 -- tests if there's a chest node
 local function chest_exists(pos)
 	local chest = minetest.get_node(pos).name
-	if chest == "ignore" then
-		minetest.get_voxel_manip():read_from_map(pos, pos)
-		chest = minetest.get_node_or_nil(pos)
-		if not chest then
-			return false
-		end
-		chest = chest.name
+	if chest ~= "ignore" then
+		return chest
 	end
-	return chest == "default:chest"
+	minetest.get_voxel_manip():read_from_map(pos, pos)
+	chest = minetest.get_node_or_nil(pos)
+	if not chest then
+		return false
+	end
+	return chest.name
 end
 
 local function vecsort(a,b)
